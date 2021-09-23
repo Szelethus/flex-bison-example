@@ -85,6 +85,21 @@ class binop_expression : public expression {
     expression* right;
 };
 
+class triop_expression : public expression {
+  public:
+    triop_expression(int _line, std::string _op, expression* first, expression* second, expression* third);
+    ~triop_expression();
+    type get_type() const;
+    std::string get_code() const;
+    unsigned get_value() const;    
+  private:
+    int line;
+    std::string op;
+    expression* first;
+    expression* second;
+    expression* third;
+};
+
 class not_expression : public expression {
   public:
     not_expression(int _line, std::string _op, expression* _operand);

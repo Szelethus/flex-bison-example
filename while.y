@@ -39,6 +39,7 @@ int yylex(yy::parser::semantic_type* yylval, yy::parser::location_type* yylloc);
 %left LS GR LSE GRE
 %left ADD SUB
 %left MUL DIV MOD
+%left COLON QMARK
 %precedence NOT
 
 %type <expression*> expression
@@ -197,6 +198,11 @@ expression:
     expression OR expression
     {
         $$ = new binop_expression(@2.begin.line, "or", $1, $3);
+    }
+|
+    expression QMARK expression COLON expression
+    {
+        $$ = new triop_expression(@2.begin.line, "?:", $1, $3, $5);
     }
 |
     expression EQ expression

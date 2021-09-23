@@ -1,0 +1,18 @@
+program test_assignment
+begin
+    # nem logikai feltetel
+    #write((10) ? 1 : 0)
+
+ 
+
+    # ket operand mas-mas tipusu
+    #write((10 > 100) ? 1 : (10 = 10))
+
+ 
+
+    # pozitiv tesztek
+    write((10 > 100) ? 1 : 0)
+    write((10 < 100) ? 1 : 0)
+    write((10 = 4) ? 1 : 0)
+    write((10 = 10) ? 1 : 0)
+end

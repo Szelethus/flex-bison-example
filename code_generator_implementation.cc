@@ -163,6 +163,22 @@ std::string write_instruction::get_code() {
     return ss.str();
 }
 
+std::string triop_expression::get_code() const {
+    std::string else_label = next_label();
+    std::string end_label = next_label();
+    std::stringstream ss;
+    ss << "; TRIOP HERE" << std::endl;
+    ss << first->get_code();
+    ss << "cmp al,1" << std::endl;
+    ss << "jne near " << else_label << std::endl;
+    ss << second->get_code();
+    ss << "jmp " << end_label << std::endl;
+    ss << else_label << ":" << std::endl;
+    ss << third->get_code();
+    ss << end_label << ":" << std::endl;
+    return ss.str();
+}
+
 std::string if_instruction::get_code() {
     std::string else_label = next_label();
     std::string end_label = next_label();

@@ -96,6 +96,14 @@ void if_instruction::execute() {
     }
 }
 
+unsigned triop_expression::get_value() const {
+    if(first->get_value()) {
+        return second->get_value();
+    } else {
+        return third->get_value();
+    }
+}
+
 void while_instruction::execute() {
     std::list<instruction*>::iterator it;
     while(condition->get_value()) {

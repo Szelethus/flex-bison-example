@@ -59,6 +59,18 @@ type binop_expression::get_type() const {
     return return_type(op);
 }
 
+type triop_expression::get_type() const {
+    if(op == "?:") {
+        if(first->get_type() != boolean) {
+            error(line, "First operand of '?:' is not boolean.");
+        }
+        if(second->get_type() != third->get_type()) {
+            error(line, "Second and third operands of '?:' have different types.");
+        }
+    }
+    return second->get_type();
+}
+
 type not_expression::get_type() const {
     if(operand->get_type() != boolean) {
         error(line, "Operand of 'not' is not boolean.");

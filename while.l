@@ -33,6 +33,8 @@ false                       return parser::token::FAL;
 "-"                         return parser::token::SUB;
 "*"                         return parser::token::MUL;
 "/"                         return parser::token::DIV;
+"?"                         return parser::token::QMARK;
+":"                         return parser::token::COLON;
 "%"                         return parser::token::MOD;
 "<"                         return parser::token::LS;
 ">"                         return parser::token::GR;

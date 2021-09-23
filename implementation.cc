@@ -40,6 +40,15 @@ binop_expression::binop_expression(int _line, std::string _op, expression* _left
     : line(_line), op(_op), left(_left), right(_right)
 {}
 
+triop_expression::triop_expression(int _line, std::string _op, expression* first, expression* second, expression* third)
+    : line(_line), op(_op), first(first), second(second), third(third) {}
+
+triop_expression::~triop_expression() {
+    delete first;
+    delete second;
+    delete third;
+}
+
 not_expression::~not_expression() {
     delete operand;
 }
