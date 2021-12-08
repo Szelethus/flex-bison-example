@@ -1,0 +1,12 @@
+program test_for_loop_misuse
+    natural n
+    natural i
+begin
+    read(n)
+    for i := 1..n do
+        for i := 1..10 do
+            n := i
+        done
+        write(i)
+    done
+end

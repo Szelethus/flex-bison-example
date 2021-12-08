@@ -1,0 +1,9 @@
+program test_for_loop_simple
+    natural n
+    natural i
+begin
+    read(n)
+    for i := 1..n do
+        write(i)
+    done
+end

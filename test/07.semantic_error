@@ -1,0 +1,11 @@
+program test_simultan
+  natural a
+  natural b
+  boolean c
+begin
+    a,b,c := 1,2,3
+    a,b,c := b,c,a
+    write(a)
+    write(b)
+    write(c)
+end
