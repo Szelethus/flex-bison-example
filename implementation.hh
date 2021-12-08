@@ -138,6 +138,8 @@ class assign_instruction : public instruction {
 public:
   assign_instruction(int _line, std::string _left, expression *right);
   ~assign_instruction();
+  expression* get_right() { return right; }
+  void set_right(expression* r) { right = r; }
   void type_check();
   std::string get_code();
   void execute();

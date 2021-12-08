@@ -40,11 +40,13 @@ int yylex(yy::parser::semantic_type* yylval, yy::parser::location_type* yylloc);
 %left ADD SUB
 %left MUL DIV MOD
 %left COLON QMARK
+%right COMMA
 %precedence NOT
 
 %type <expression*> expression
 %type <instruction*> command
 %type <std::list<instruction*>* > commands
+%type <std::list<instruction*>* > assignments
 
 %%
 
@@ -90,6 +92,24 @@ commands:
         $1->push_back($2);
         $$ = $1;
     }
+|
+    commands assignments
+    {
+        std::vector<expression *> right_hands;
+        for (std::list<instruction*>::iterator it = $2->begin(); it != $2->end(); ++it) {
+          assign_instruction *a = static_cast<assign_instruction *>(*it);
+          right_hands.push_back(a->get_right());
+        }
+        std::reverse(right_hands.begin(), right_hands.end());
+
+        for (std::list<instruction*>::iterator it = $2->begin(); it != $2->end(); ++it) {
+          assign_instruction *a = static_cast<assign_instruction *>(*it);
+          a->set_right(right_hands.back());
+          right_hands.pop_back();
+        }
+        $1->insert($1->end(), $2->begin(), $2->end());
+        $$ = $1;
+    }
 ;
 
 command:
@@ -101,11 +121,6 @@ command:
     WRI OP expression CL
     {
         $$ = new write_instruction(@1.begin.line, $3);
-    }
-|
-    ID ASN expression
-    {
-        $$ = new assign_instruction(@2.begin.line, $1, $3);
     }
 |
     IF expression THE commands EIF
@@ -121,6 +136,20 @@ command:
     WHI expression DO commands DON
     {
         $$ = new while_instruction(@1.begin.line, $2, $4);
+    }
+;
+
+assignments:
+    ID COMMA assignments COMMA expression 
+    {
+        $3->push_back(new assign_instruction(@2.begin.line, $1, $5));
+        $$ = $3;
+    }
+|
+    ID ASN expression
+    {
+        $$ = new std::list<instruction*>();
+        $$->push_back(new assign_instruction(@2.begin.line, $1, $3));
     }
 ;
 
